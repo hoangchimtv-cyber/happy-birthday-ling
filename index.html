@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday</title>
+  <style>
+    /* ===== CSS giữ nguyên như bạn gửi ===== */
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Segoe UI",sans-serif;}
+    body,html{width:100%;height:100%;overflow:hidden;}
+    .page{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;transition:opacity 1s ease;}
+    .hidden{opacity:0;pointer-events:none;}
+    .show{opacity:1;pointer-events:all;}
+    #page1{background:url(https://i.postimg.cc/Bn7q9H4n/9eae3cef-da11-4057-a9b2-089695c6e63d.jpg) no-repeat center/cover;}
+    .login-box{background:rgba(255,255,255,0.15);backdrop-filter:blur(12px);border-radius:25px;padding:30px 20px;box-shadow:0 8px 25px rgba(0,0,0,0.2);display:flex;align-items:center;gap:15px;width:400px;}
+    .login-box img{width:120px;height:120px;object-fit:cover;border-radius:20px;}
+    .login-box .info{flex:1;text-align:center;}
+    .login-box h2,.login-box h3{color:#fff;}
+    .login-box h2{font-size:18px;margin-bottom:10px;}
+    .login-box h3{font-size:20px;margin-bottom:20px;}
+    .password-display{width:100%;height:45px;margin-bottom:15px;border-radius:15px;background:rgba(255,192,203,0.2);border:2px solid rgba(255,105,180,0.4);box-shadow:0 0 10px rgba(255,182,193,0.5);display:flex;align-items:center;justify-content:center;color:#333;font-size:24px;letter-spacing:10px;transition:0.3s;}
+    .password-display:focus-within{box-shadow:0 0 15px rgba(255,105,180,0.7);}
+    .keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+    .key{background:rgba(255,182,193,0.8);border:none;border-radius:12px;font-size:20px;color:#fff;padding:15px 0;cursor:pointer;transition:0.2s;}
+    .key:hover{background:rgba(255,105,135,0.9);}
+    #page2{display:flex;justify-content:center;align-items:center;flex-direction:column;text-align:center;background:linear-gradient(135deg,#ffe6f2,#fff0f5,#ffd6eb);position:relative;overflow:hidden;}
+    #page2 .content{max-width:800px;padding:20px;position:relative;z-index:2;}
+    #page2 h1{font-size:32px;margin-bottom:20px;color:#ff4d88;text-shadow:1px 1px 3px rgba(255,192,203,0.8);animation:fadeInDown 1.2s ease;}
+    #page2 p{color:#d63384;font-size:18px;margin-bottom:20px;white-space:pre-wrap;}
+    @keyframes fadeInDown {from{opacity:0;transform:translateY(-30px);}to{opacity:1;transform:translateY(0);}}
+    #heart{position:relative;width:600px;height:500px;margin:20px auto;z-index:2;}
+    #heart img{position:absolute;width:60px;height:60px;border-radius:12px;opacity:0;transform:scale(0.5);transition:all 0.6s ease;}
+    #heart img.show{opacity:1;transform:scale(1);}
+    #heart button{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:12px 24px;font-size:18px;border:none;border-radius:20px;background:#ff6699;color:white;cursor:pointer;box-shadow:0 4px 8px rgba(0,0,0,0.2);z-index:3;}
+    #heart button:hover{background:#ff3366;}
+    .balloon{position:absolute;bottom:-120px;border-radius:50% 50% 45% 55%;opacity:0.95;box-shadow:inset -6px -10px 0 rgba(255,255,255,0.25),0 6px 18px rgba(0,0,0,0.12);transform-origin:center;z-index:1;pointer-events:none;animation-name:floatUp;animation-timing-function:linear;animation-fill-mode:forwards;}
+    .balloon::after{content:"";position:absolute;bottom:-18px;left:50%;width:2px;height:18px;background:#c48b8b;transform:translateX(-50%);opacity:0.6;}
+    @keyframes floatUp {0%{transform:translateY(0) translateX(0) rotate(0);opacity:1;}50%{transform:translateY(-40vh) translateX(12px) rotate(5deg);opacity:0.95;}100%{transform:translateY(-90vh) translateX(-12px) rotate(-6deg);opacity:0;}}
+  </style>
+</head>
+<body>
+  <!-- PAGE 1 -->
+  <div id="page1" class="page show">
+    <div class="login-box">
+      <img src="https://i.postimg.cc/zXN6dvm2/3082da30-a5ea-4792-af70-f44488328873.jpg" alt="avatar">
+      <div class="info">
+        <h2>chồn toi</h2>
+        <h3>nhập ngày sn zô</h3>
+        <div class="password-display" id="pwDisplay"></div>
+        <div class="keypad">
+          <button class="key" onclick="pressKey('1')">1</button>
+          <button class="key" onclick="pressKey('2')">2</button>
+          <button class="key" onclick="pressKey('3')">3</button>
+          <button class="key" onclick="pressKey('4')">4</button>
+          <button class="key" onclick="pressKey('5')">5</button>
+          <button class="key" onclick="pressKey('6')">6</button>
+          <button class="key" onclick="pressKey('7')">7</button>
+          <button class="key" onclick="pressKey('8')">8</button>
+          <button class="key" onclick="pressKey('9')">9</button>
+          <button class="key" onclick="clearKey()">X</button>
+          <button class="key" onclick="pressKey('0')">0</button>
+          <button class="key" onclick="submitPw()">✔</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div id="page2" class="page hidden">
+    <div class="content">
+      <h1>🎉 Chúc mừng sinh nhật vợ yêu 🥰 🎉</h1>
+      <p id="typing"></p>
+      <div id="heart">
+        <button onclick="showHeart()">Món quà bất ngờ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ===== JS giữ nguyên như bạn gửi ===== */
+    const page1=document.getElementById("page1");
+    const page2=document.getElementById("page2");
+    let inputPw="";const pwDisplay=document.getElementById("pwDisplay");
+    function pressKey(num){if(inputPw.length<6){inputPw+=num;pwDisplay.textContent="•".repeat(inputPw.length);}}
+    function clearKey(){inputPw="";pwDisplay.textContent="";}
+    function submitPw(){if(inputPw==="25"){fadeTo(page1,page2);setTimeout(()=>{createBalloons();startTyping();},650);}else{alert("Sai mật khẩu rồi 😅");clearKey();}}
+    function fadeTo(from,to){from.classList.remove("show");from.classList.add("hidden");setTimeout(()=>{to.classList.remove("hidden");to.classList.add("show");},500);}
+    const textToType="CHÚC LING 1 NGÀY SNVV NHA NHANH LỚN CÒN CƯỚI TOY NHÉ CÔ NƯƠNG =)))))";
+    function startTyping(){const typingEl=document.getElementById("typing");typingEl.textContent="";let i=0;const interval=setInterval(()=>{typingEl.textContent+=textToType.charAt(i);i++;if(i>=textToType.length){clearInterval(interval);}},80);}
+    const heart=document.getElementById("heart");const coords=[];for(let t=0;t<Math.PI*2;t+=0.2){let x=16*Math.pow(Math.sin(t),3);let y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);coords.push([x,-y]);}
+    const images=["https://i.ibb.co/3s3fW2f/pic1.jpg","https://i.ibb.co/FbZJf9m/pic2.jpg","https://i.ibb.co/8mPhZt7/pic3.jpg","https://i.ibb.co/Dgf66s3/pic4.jpg","https://i.ibb.co/9ykHDP3/pic5.jpg","https://i.ibb.co/2MdwQsz/pic6.jpg","https://i.ibb.co/MnNfJvR/pic7.jpg","https://i.ibb.co/4NfQmh6/pic8.jpg"];
+    function showHeart(){heart.querySelectorAll("img").forEach(el=>el.remove());const rect=heart.getBoundingClientRect();const cx=rect.width/2,cy=rect.height/2;coords.forEach((c,i)=>{const img=document.createElement("img");img.src=images[i%images.length];img.style.left=(cx+c[0]*15-30)+"px";img.style.top=(cy+c[1]*13-30)+"px";heart.appendChild(img);setTimeout(()=>{img.classList.add("show");},i*120);});}
+    let balloonInterval=null;
+    function createBalloons(){if(balloonInterval)return;const container=document.getElementById("page2");balloonInterval=setInterval(()=>{const b=document.createElement("div");b.className="balloon";const w=30+Math.random()*40;const h=Math.round(w*1.25);b.style.width=w+"px";b.style.height=h+"px";const maxLeft=Math.max(0,container.clientWidth-w-20);b.style.left=(10+Math.random()*maxLeft)+"px";b.style.background="rgba(255,182,193,0.95)";const dur=5+Math.random()*4;b.style.animationDuration=dur+"s";container.appendChild(b);setTimeout(()=>{b.remove();},dur*1000+500);},650);}
+  </script>
+</body>
+</html>
